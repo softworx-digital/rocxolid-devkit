@@ -1,0 +1,16 @@
+<?php
+
+namespace {{package}}\Repositories{{subpackage}}\{{model}};
+
+use Softworx\RocXolid\Repositories\AbstractCrudRepository;
+use Softworx\RocXolid\Repositories\Columns\Type\Text;
+use Softworx\RocXolid\Repositories\Columns\Type\ModelRelation;
+
+class Repository extends AbstractCrudRepository
+{
+    protected static $translation_param = '{{resourceKebabCase}}';
+
+    protected $columns = [
+
+    ];
+}

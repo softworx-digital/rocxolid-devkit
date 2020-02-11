@@ -1,0 +1,24 @@
+<?php
+
+namespace {{package}}\Models{{subpackage}};
+
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Softworx\RocXolid\Models\AbstractCrudModel;
+/**
+ *
+ */
+class {{model}} extends AbstractCrudModel
+{
+    use SoftDeletes;
+
+    protected $guarded = [
+        'id'
+    ];
+
+    protected $fillable = [
+        {{fillable}}
+    ];
+
+    protected $relationships = [
+    ];
+}

@@ -1,0 +1,14 @@
+<?php
+
+namespace {{package}}\Http\Controllers{{subpackage}}\{{model}};
+
+use {{package}}\Http\Controllers\AbstractCrudController;
+use {{package}}\Models{{subpackage}}\{{model}};
+use {{package}}\Repositories{{subpackage}}\{{model}}\Repository;
+
+class Controller extends AbstractCrudController
+{
+    protected static $model_class = {{model}}::class;
+
+    protected static $repository_class = Repository::class;
+}

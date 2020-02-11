@@ -1,0 +1,1 @@
+<li class="@if (isset($active) && ($component->getCommand()->getName() == $active)) active @endif"><a href="#tab-{{ md5($component->getCommand()->getName()) }}" data-toggle="tab">{{ $component->getCommand()->getName() }}</a></li>
