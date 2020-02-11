@@ -2,6 +2,7 @@
 
 namespace Softworx\RocXolid\DevKit\Console\Commands\Generate;
 
+use Illuminate\Support\Str;
 use Softworx\RocXolid\DevKit\Console\Commands\Generate\Migrations\NameParser;
 use Softworx\RocXolid\DevKit\Console\Commands\Generate\Migrations\SchemaParser;
 use Softworx\RocXolid\DevKit\Console\Commands\Generate\Migrations\SyntaxBuilder;
@@ -42,7 +43,7 @@ class Migration extends AbstractCommand
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $this->setSettings(strtolower($this->type));
         $this->meta = (new NameParser())->parse($this->argumentName());
@@ -99,7 +100,7 @@ class Migration extends AbstractCommand
      */
     protected function replaceClassName(&$stub)
     {
-        $class_name = ucwords(camel_case($this->argumentName()));
+        $class_name = ucwords(Str::camel($this->argumentName()));
 
         $stub = str_replace('{{class}}', $class_name, $stub);
 

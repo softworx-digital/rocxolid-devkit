@@ -32,9 +32,9 @@ class Form extends AbstractCommand
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
-        parent::fire();
+        parent::handle();
 
         if ($this->option('migration'))
         {

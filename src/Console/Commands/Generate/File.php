@@ -2,6 +2,7 @@
 
 namespace Softworx\RocXolid\DevKit\Console\Commands\Generate;
 
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Exception\RuntimeException;
@@ -82,7 +83,7 @@ class File extends AbstractCommand
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         $name = $this->argumentName();
         // setup
@@ -126,8 +127,9 @@ class File extends AbstractCommand
         $with_name = boolval($this->option('name'));
 
         //$path = $this->settings['path'];//base_path()
-        $path = base_path();
-        $path .= '/';
+        // $path = base_path();
+        // $path .= '/';
+        $path = '';
 
         if ($this->settingsDirectoryNamespace() === true)
         {
@@ -183,7 +185,7 @@ class File extends AbstractCommand
         // bar
         $stub = str_replace('{{resourceLowercase}}', $this->resourceLowerCase, $stub);
         // foo-bar
-        $stub = str_replace('{{resourceKebabCase}}', kebab_case($this->resource), $stub);
+        $stub = str_replace('{{resourceKebabCase}}', Str::kebab($this->resource), $stub);
         // ./resources/views/foo/bar.blade.php
         $stub = str_replace('{{path}}', $this->getPath(''), $stub);
         // foos.bars
@@ -286,8 +288,8 @@ class File extends AbstractCommand
     {
         if ($lowercase)
         {
-            $url = '/' . rtrim(implode('/', array_map('snake_case', explode('/', $this->getArgumentPath(true)))), '/');
-            $url = (implode('/', array_map('str_slug', explode('/', $url))));
+            $url = '/' . rtrim(implode('/', array_map('Str::snake', explode('/', $this->getArgumentPath(true)))), '/');
+            $url = (implode('/', array_map('Str::slug', explode('/', $url))));
             return $url;
         }
 
@@ -300,7 +302,7 @@ class File extends AbstractCommand
      */
     protected function getClassName()
     {
-        return ucwords(camel_case(str_replace([$this->settings['file_type']], [''], $this->getFileName())));
+        return ucwords(Str::camel(str_replace([$this->settings['file_type']], [''], $this->getFileName())));
     }
 
     /**

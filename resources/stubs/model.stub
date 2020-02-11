@@ -4,6 +4,7 @@ namespace {{package}}\Models{{subpackage}};
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Softworx\RocXolid\Models\AbstractCrudModel;
+
 /**
  *
  */

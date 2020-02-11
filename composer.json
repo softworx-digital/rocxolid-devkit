@@ -21,13 +21,13 @@
 	},
     "autoload": {
         "psr-4": {
-            "Softworx\\RocXolid\\Devkit\\": "src"
+            "Softworx\\RocXolid\\DevKit\\": "src"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Softworx\\RocXolid\\Devkit\\ServiceProvider"
+                "Softworx\\RocXolid\\DevKit\\ServiceProvider"
             ]
         },
         "rocXolid": {

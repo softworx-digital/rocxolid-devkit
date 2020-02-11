@@ -2,6 +2,8 @@
 
 namespace Softworx\RocXolid\DevKit\Console\Commands\Generate\Migrations;
 
+use Illuminate\Support\Str;
+
 class SchemaParser
 {
     /**
@@ -116,7 +118,7 @@ class SchemaParser
 
         foreach ($options as $option)
         {
-            if (str_contains($option, '('))
+            if (Str::contains($option, '('))
             {
                 preg_match('/([a-z]+)\(([^\)]+)\)/i', $option, $matches);
 
@@ -153,7 +155,7 @@ class SchemaParser
      */
     private function getTableNameFromForeignKey($key)
     {
-        return str_plural(str_replace('_id', '', $key));
+        return Str::plural(str_replace('_id', '', $key));
     }
 
     /**

@@ -2,9 +2,11 @@
 
 namespace Softworx\RocXolid\DevKit\Console\Commands\Generate;
 
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Illuminate\Http\Request;
+
 // @todo - types (return)
 class Resource extends AbstractCommand
 {
@@ -36,9 +38,9 @@ class Resource extends AbstractCommand
     /**
      * Execute the console command.
      *
-     * @return void
+     * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $this->package = $this->getPackageOnly();
         $this->resource = $this->getResourceOnly();
@@ -137,7 +139,7 @@ class Resource extends AbstractCommand
             {
                 $resource = $this->argument('resource');
 
-                if (str_contains($resource, '.'))
+                if (Str::contains($resource, '.'))
                 {
                     $resource = str_replace('.', '/', $resource);
                 }
@@ -157,7 +159,7 @@ class Resource extends AbstractCommand
         if (!$this->needConfirmation || $this->confirm("Create a controller ($name) for the $this->resource resource? [yes|no]"))
         {
             $arg = $this->getArgumentResource();
-            $name = substr_replace($arg, str_plural($this->resource), strrpos($arg, $this->resource), strlen($this->resource));
+            $name = substr_replace($arg, Str::plural($this->resource), strrpos($arg, $this->resource), strlen($this->resource));
 
             //$this->callCommandFile('controller', $name);
             $this->callCommandFile('controller', $this->getPackagePath());
@@ -186,7 +188,7 @@ class Resource extends AbstractCommand
         if (!$this->needConfirmation || $this->confirm("Create a repository ($name) for the $this->resource resource? [yes|no]"))
         {
             $arg = $this->getArgumentResource();
-            $name = substr_replace($arg, str_plural($this->resource), strrpos($arg, $this->resource), strlen($this->resource));
+            $name = substr_replace($arg, Str::plural($this->resource), strrpos($arg, $this->resource), strlen($this->resource));
 
             //$this->callCommandFile('repository', $name);
             $this->callCommandFile('repository', $this->getPackagePath());
@@ -294,7 +296,7 @@ class Resource extends AbstractCommand
     {
         $name = $this->argument('package');
 
-        if (!str_contains($name, '.'))
+        if (!Str::contains($name, '.'))
         {
             return $name;
         }
@@ -312,36 +314,36 @@ class Resource extends AbstractCommand
     {
         $name = $this->argument('resource');
 
-        if (str_contains($name, '/'))
+        if (Str::contains($name, '/'))
         {
             $name = str_replace('/', '.', $name);
         }
 
-        if (str_contains($name, '\\'))
+        if (Str::contains($name, '\\'))
         {
             $name = str_replace('\\', '.', $name);
         }
 
-        if (str_contains($name, '.'))
+        if (Str::contains($name, '.'))
         {
             $parts = [];
             $names = explode('.', $name);
 
             foreach ($names as $part)
             {
-                $parts[] = kebab_case($part);
+                $parts[] = Str::kebab($part);
             }
 
             end($parts);
             $key = key($parts);
-            $parts[$key] = str_singular($parts[$key]);
+            $parts[$key] = Str::singular($parts[$key]);
             reset($parts);
 
             $name = implode('.', $parts);
         }
         else
         {
-            $name = kebab_case(str_singular($name));
+            $name = Str::kebab(Str::singular($name));
         }
 
         return $name;
@@ -356,7 +358,7 @@ class Resource extends AbstractCommand
     {
         $name = $this->getArgumentResource();
 
-        if (!str_contains($name, '.'))
+        if (!Str::contains($name, '.'))
         {
             return $name;
         }
@@ -371,7 +373,7 @@ class Resource extends AbstractCommand
      */
     private function getResourceControllerName()
     {
-        return $this->getControllerName(str_plural($this->resource), false) . $this->getConfig('settings.controller.postfix');
+        return $this->getControllerName(Str::plural($this->resource), false) . $this->getConfig('settings.controller.postfix');
     }
 
     /**
@@ -381,7 +383,7 @@ class Resource extends AbstractCommand
      */
     private function getResourceRepositoryName()
     {
-        return $this->getRepositoryName(str_plural($this->resource), false) . $this->getConfig('settings.repository.postfix');
+        return $this->getRepositoryName(Str::plural($this->resource), false) . $this->getConfig('settings.repository.postfix');
     }
 
     /**
@@ -391,7 +393,7 @@ class Resource extends AbstractCommand
      */
     private function getResourceFormName($param)
     {
-        return $this->getFormName(str_plural($this->resource), false) . $this->getConfig(sprintf('settings.form-%s.postfix', $param));
+        return $this->getFormName(Str::plural($this->resource), false) . $this->getConfig(sprintf('settings.form-%s.postfix', $param));
     }
 
     /**
@@ -402,7 +404,7 @@ class Resource extends AbstractCommand
      */
     private function getMigrationName($name = null)
     {
-        return 'create_' . str_plural(str_replace('-', '_', $this->getResourceName($name))) . '_table';
+        return 'create_' . Str::plural(str_replace('-', '_', $this->getResourceName($name))) . '_table';
     }
 
     /**
@@ -464,16 +466,14 @@ class Resource extends AbstractCommand
         {
             case 'App':
                 return 'app';
-            case 'rxCommon':
-                return 'packages/softworx/rocxolid-common/src';
-            case 'rxCMS':
-                return 'packages/softworx/rocxolid-cms/src';
-            case 'rxCommerce':
-                return 'packages/softworx/rocxolid-commerce/src';
-            case 'rxCommunication':
-                return 'packages/softworx/rocxolid-communication/src';
             default:
-                throw new \InvalidArgumentException(sprintf('Invalid package [%s]', $this->package));
+                if ($package_service_provider = $this->package_service->get($this->package)) {
+                    $reflection = new \ReflectionClass($package_service_provider);
+
+                    return dirname($reflection->getFileName());
+                } else {
+                    throw new \InvalidArgumentException(sprintf('Invalid package [%s]', $this->package));
+                }
         }
     }
 
@@ -490,16 +490,14 @@ class Resource extends AbstractCommand
         {
             case 'App':
                 return 'App';
-            case 'rxCommon':
-                return 'Softworx\RocXolid\Common';
-            case 'rxCMS':
-                return 'Softworx\RocXolid\CMS';
-            case 'rxCommerce':
-                return 'Softworx\RocXolid\Commerce';
-            case 'rxCommunication':
-                return 'Softworx\RocXolid\Communication';
             default:
-                throw new \InvalidArgumentException(sprintf('Invalid package [%s]', $this->package));
+                if ($package_service_provider = $this->package_service->get($this->package)) {
+                    $reflection = new \ReflectionClass($package_service_provider);
+
+                    return $reflection->getNamespaceName();
+                } else {
+                    throw new \InvalidArgumentException(sprintf('Invalid package [%s]', $this->package));
+                }
         }
     }
 }

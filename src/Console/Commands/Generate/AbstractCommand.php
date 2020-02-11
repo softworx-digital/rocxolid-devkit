@@ -5,12 +5,17 @@ namespace Softworx\RocXolid\DevKit\Console\Commands\Generate;
 // @TODO - settable upratat - mozno dat cele ako Softworx\RocXolid\Traits\Optionable
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use Illuminate\Support\Composer;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Exception\RuntimeException;
+// rocXolid services
+use Softworx\RocXolid\Services\PackageService;
+// rocXolid form contracts
 use Softworx\RocXolid\Forms\Contracts\Formable;
+// rocXolid devkit generate command traits
 use Softworx\RocXolid\DevKit\Console\Commands\Generate\Traits\ArgumentsOptionsGettable as ArgumentsOptionsGettableTrait;
 use Softworx\RocXolid\DevKit\Console\Commands\Generate\Traits\Settable as SettableTrait;
 use Softworx\RocXolid\DevKit\Console\Commands\Generate\Traits\Configurable as ConfigurableTrait;
@@ -25,9 +30,14 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
     use FormableTrait;
 
     /**
-     * @var Composer
+     * @var \Illuminate\Support\Composer
      */
     protected $composer;
+
+    /**
+     * @var \Softworx\RocXolid\Services\PackageService
+     */
+    protected $package_service;
 
     /**
      * The package argument
@@ -50,11 +60,12 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
      */
     protected $resourceLowerCase = '';
 
-    public function __construct(Filesystem $files, Composer $composer)
+    public function __construct(Filesystem $files, Composer $composer, PackageService $package_service)
     {
         parent::__construct($files);
 
         $this->composer = $composer;
+        $this->package_service = $package_service;
     }
 
     /**
@@ -62,7 +73,7 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         $this->call('rocXolid:generate:file', [
             'package' => $this->argumentPackage(),
@@ -85,22 +96,22 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
     {
         $name = $this->argumentName();
 
-        if (str_contains($name, '--')) // package - resource delimiter
+        if (Str::contains($name, '--')) // package - resource delimiter
         {
             $name = substr($name, strrpos($name, '--') + 2);
         }
 
-        if (str_contains($name, '/'))
+        if (Str::contains($name, '/'))
         {
             $name = str_replace('/', '.', $name);
         }
 
-        if (str_contains($name, '\\'))
+        if (Str::contains($name, '\\'))
         {
             $name = str_replace('\\', '.', $name);
         }
 
-        if (str_contains($name, '.'))
+        if (Str::contains($name, '.'))
         {
 
             return substr($name, strrpos($name, '.') + 1);
@@ -119,23 +130,23 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
     {
         $name = $this->argumentName();
 
-        if (str_contains($name, '--')) // package - resource delimiter
+        if (Str::contains($name, '--')) // package - resource delimiter
         {
             $name = substr($name, 0, strrpos($name, '--'));
             $name .= '.'; // to fake further parsing (expects model name as the last part)
         }
 
-        if (str_contains($name, '/'))
+        if (Str::contains($name, '/'))
         {
             $name = str_replace('/', '.', $name);
         }
 
-        if (str_contains($name, '\\'))
+        if (Str::contains($name, '\\'))
         {
             $name = str_replace('\\', '.', $name);
         }
 
-        if (str_contains($name, '.'))
+        if (Str::contains($name, '.'))
         {
             return substr($name, 0, strrpos($name, '.'));
         }
@@ -153,21 +164,21 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
     {
         $name = $this->argumentName();
 
-        if (str_contains($name, '--')) // package - resource delimiter
+        if (Str::contains($name, '--')) // package - resource delimiter
         {
             $name = substr($name, strrpos($name, '--') + 2);
 
-            if (str_contains($name, '/'))
+            if (Str::contains($name, '/'))
             {
                 $name = str_replace('/', '.', $name);
             }
 
-            if (str_contains($name, '\\'))
+            if (Str::contains($name, '\\'))
             {
                 $name = str_replace('\\', '.', $name);
             }
 
-            if (str_contains($name, '.'))
+            if (Str::contains($name, '.'))
             {
                 return substr($name, 0, strrpos($name, '.'));
             }
@@ -187,12 +198,12 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
         $path = $this->argumentPath();
 
         /*
-        if (str_contains($path, '.'))
+        if (Str::contains($path, '.'))
         {
             $path = str_replace('.', '/', $path);
         }
 
-        if (str_contains($path, '\\'))
+        if (Str::contains($path, '\\'))
         {
             $path = str_replace('\\', '/', $path);
         }
@@ -212,7 +223,7 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
             return $path . '/';
         }
 
-        if (str_contains($path, '/'))
+        if (Str::contains($path, '/'))
         {
             return substr($path, 0, strripos($path, '/') + 1);
         }
@@ -238,12 +249,12 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
 
         $name = isset($name) ? $name : $this->resource;
 
-        if (str_contains($name, '--')) // package - resource delimiter
+        if (Str::contains($name, '--')) // package - resource delimiter
         {
             $name = substr($name, strrpos($name, '--') + 2);
         }
 
-        $this->resource = lcfirst(str_singular(class_basename($name)));
+        $this->resource = lcfirst(Str::singular(class_basename($name)));
         $this->resourceLowerCase = strtolower($name);
 
         return $this->resource;
@@ -259,9 +270,9 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
     {
         $name = isset($name) ? $name : $this->resource;
 
-        //return ucwords(camel_case($this->getResourceName($name)));
+        //return ucwords(Str::camel($this->getResourceName($name)));
 
-        return str_singular(ucwords(camel_case(class_basename($name))));
+        return Str::singular(ucwords(Str::camel(class_basename($name))));
     }
 
     /**
@@ -272,7 +283,7 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
      */
     protected function getControllerName($name = null)
     {
-        return ucwords(camel_case(str_replace($this->settings['postfix'], '', $name)));
+        return ucwords(Str::camel(str_replace($this->settings['postfix'], '', $name)));
     }
 
     /**
@@ -283,7 +294,7 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
      */
     protected function getRepositoryName($name = null)
     {
-        return ucwords(camel_case(str_replace($this->settings['postfix'], '', $name)));
+        return ucwords(Str::camel(str_replace($this->settings['postfix'], '', $name)));
     }
 
     /**
@@ -294,7 +305,7 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
      */
     protected function getFormName($name = null)
     {
-        return ucwords(camel_case(str_replace($this->settings['postfix'], '', $name)));
+        return ucwords(Str::camel(str_replace($this->settings['postfix'], '', $name)));
     }
 
     /**
@@ -305,7 +316,7 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
      */
     protected function getSeedName($name = null)
     {
-        return ucwords(camel_case(str_replace($this->settings['postfix'], '', $this->getResourceName($name))));
+        return ucwords(Str::camel(str_replace($this->settings['postfix'], '', $this->getResourceName($name))));
     }
 
     /**
@@ -316,7 +327,7 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
      */
     protected function getCollectionName($name = null)
     {
-        return str_plural($this->getResourceName($name));
+        return Str::plural($this->getResourceName($name));
     }
 
     /**
@@ -326,7 +337,7 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
      */
     protected function getCollectionUpperName($name = null)
     {
-        $name = str_plural($this->getResourceName($name));
+        $name = Str::plural($this->getResourceName($name));
 
         $pieces = explode('_', $name);
         $name = '';
@@ -354,13 +365,13 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
         {
             if (!in_array($value, $this->getConfig('reserve_words')))
             {
-                $pieces[$k] = str_plural(snake_case($pieces[$k]));
+                $pieces[$k] = Str::plural(Str::snake($pieces[$k]));
             }
         }
 
         $name = implode('.', $pieces);
 
-        //$name = implode('.', array_map('str_plural', explode('/', $name)));
+        //$name = implode('.', array_map('Str::plural', explode('/', $name)));
 
         return strtolower(rtrim(ltrim($name, '.'), '.'));
     }
@@ -373,7 +384,7 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
      */
     protected function getTableName($name)
     {
-        return str_replace('-', '_', str_plural(snake_case(class_basename($name))));
+        return str_replace('-', '_', Str::plural(Str::snake(class_basename($name))));
     }
 
     /**

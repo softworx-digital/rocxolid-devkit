@@ -36,7 +36,7 @@ class Listener extends AbstractCommand
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         if (!$this->option('event'))
         {
@@ -49,7 +49,7 @@ class Listener extends AbstractCommand
 
         // check the path where to create and save file
         $path = $this->getPath('');
-        
+
         if ($this->files->exists($path) && ($this->optionForce() === false))
         {
             return $this->error($this->type . ' already exists!');
@@ -232,8 +232,8 @@ class Listener extends AbstractCommand
     {
         if ($lowercase)
         {
-            $url = '/' . rtrim(implode('/', array_map('snake_case', explode('/', $this->getArgumentPath(true)))), '/');
-            $url = (implode('/', array_map('str_slug', explode('/', $url))));
+            $url = '/' . rtrim(implode('/', array_map('Str::snake', explode('/', $this->getArgumentPath(true)))), '/');
+            $url = (implode('/', array_map('Str::slug', explode('/', $url))));
 
             return $url;
         }
@@ -247,7 +247,7 @@ class Listener extends AbstractCommand
      */
     protected function getClassName()
     {
-        return ucwords(camel_case(str_replace([$this->settings['file_type']], [''], $this->getFileName())));
+        return ucwords(Str::camel(str_replace([$this->settings['file_type']], [''], $this->getFileName())));
     }
 
     /**

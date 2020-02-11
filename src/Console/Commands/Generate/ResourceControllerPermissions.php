@@ -51,7 +51,7 @@ class ResourceControllerPermissions extends AbstractCommand
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         $controllers = [];
 
@@ -96,7 +96,7 @@ class ResourceControllerPermissions extends AbstractCommand
 
             foreach (static::$controller_method_groups as $method_group)
             {
-                $name = sprintf('%s.%s', snake_case($controller_shortened), $method_group);
+                $name = sprintf('%s.%s', Str::snake($controller_shortened), $method_group);
 
                 try
                 {

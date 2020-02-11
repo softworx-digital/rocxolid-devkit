@@ -6,6 +6,9 @@ use {{package}}\Http\Controllers\AbstractCrudController;
 use {{package}}\Models{{subpackage}}\{{model}};
 use {{package}}\Repositories{{subpackage}}\{{model}}\Repository;
 
+/**
+ *
+ */
 class Controller extends AbstractCrudController
 {
     protected static $model_class = {{model}}::class;
