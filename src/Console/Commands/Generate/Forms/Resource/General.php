@@ -13,7 +13,7 @@ use Softworx\RocXolid\DevKit\Console\Commands\Generate\Forms\AbstractForm as Gen
 
 class General extends GenerateCommandAbstractForm
 {
-    protected static $translation_param = 'commands.generate.resource';
+    protected $translation_param = 'commands.generate.resource';
 
     protected $fieldgroups = [
         FormFieldGroup::DEFAULT_NAME => [
@@ -238,7 +238,7 @@ class General extends GenerateCommandAbstractForm
                     'title' => 'nullable',
                 ],
             ],
-        ],        
+        ],
         'multilanguage' => [
             'type' => Checkbox::class,
             'options' => [

@@ -15,7 +15,8 @@ use Softworx\RocXolid\DevKit\Components\Commander\Command\Tab as CommandTab;
 use Softworx\RocXolid\DevKit\Components\Commander\Command\Form as CommandForm;
 use Softworx\RocXolid\DevKit\Console\Contracts\Executor;
 use Softworx\RocXolid\DevKit\Components\General\Message;
-use Softworx\RocXolid\Communication\Contracts\AjaxResponse;
+// rocXolid utils
+use Softworx\RocXolid\Http\Responses\Contracts\AjaxResponse;
 
 class CommanderController extends AbstractController
 {

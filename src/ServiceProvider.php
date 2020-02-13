@@ -5,6 +5,10 @@ namespace Softworx\RocXolid\DevKit;
 use Illuminate\Foundation\AliasLoader;
 // rocXolid service providers
 use Softworx\RocXolid\AbstractServiceProvider as RocXolidAbstractServiceProvider;
+// rocXolid devkit console contracts
+use Softworx\RocXolid\DevKit\Console\Contracts\Executor as ExecutorContract;
+// rocXolid devkit console executors
+use Softworx\RocXolid\DevKit\Console\Executor;
 
 /**
  * rocXolid DevKit package service provider.

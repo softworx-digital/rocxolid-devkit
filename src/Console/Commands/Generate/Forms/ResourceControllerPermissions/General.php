@@ -13,7 +13,7 @@ use Softworx\RocXolid\DevKit\Console\Commands\Generate\Forms\AbstractForm as Gen
 
 class General extends GenerateCommandAbstractForm
 {
-    protected static $translation_param = 'commands.generate.resource-controller-permissions';
+    protected $translation_param = 'commands.generate.resource-controller-permissions';
 
     protected $fieldgroups = [
         FormFieldGroup::DEFAULT_NAME => [
