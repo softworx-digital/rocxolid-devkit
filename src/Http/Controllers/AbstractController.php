@@ -13,7 +13,7 @@ abstract class AbstractController extends RocXolidController
 
         if ($user = Auth::guard('rocXolid')->user())
         {
-            if ($user->id == 1)
+            if ($user->getKey() == 1)
             {
                 return true;
             }
