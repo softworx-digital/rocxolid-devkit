@@ -85,7 +85,7 @@ class CommanderController extends AbstractController
             return $this->exception($request, $command, $e);
         }
 
-        return $this->success($request, $command, $output);
+        return $this->successResponse($request, $command, $output);
     }
 
     public function help(Request $request, $command_name)
@@ -95,7 +95,7 @@ class CommanderController extends AbstractController
         ]);
     }
 
-    protected function success(Request $request, Command $command, $output)
+    protected function successResponse(Request $request, Command $command, $output)
     {
         $assignments = $this->getViewAssignments($request, $command, $output);
 
