@@ -46,7 +46,7 @@
 
 @section('script')
 <script>
-$(document).ready(function($) {
+$(document).ready(function ($) {
     $('.tab-pane').css('min-height', $('.tabs-left').height() - 44);
 });
 </script>

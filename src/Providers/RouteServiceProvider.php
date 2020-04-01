@@ -48,7 +48,7 @@ class RouteServiceProvider extends IlluminateServiceProvider
             $router->group([
                 'prefix' => 'commander',
                 'as' => 'commander.',
-            ], function($router) {
+            ], function ($router) {
                 $router->get('/', 'CommanderController@index')->name('index');
                 $router->get('/help/{command}', 'CommanderController@help')->name('help');
                 $router->match(['GET', 'POST'], '/run/{command}', 'CommanderController@run')->name('run');
