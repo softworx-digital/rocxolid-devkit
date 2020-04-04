@@ -113,7 +113,6 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
 
         if (Str::contains($name, '.'))
         {
-
             return substr($name, strrpos($name, '.') + 1);
         }
 
