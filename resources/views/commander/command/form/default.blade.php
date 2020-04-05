@@ -1,4 +1,4 @@
-{!! Form::open($component->getOptions()->toArray()) !!}
+{{ Form::open($component->getOptions()->toArray()) }}
     @if (!$component->getForm()->getErrors()->isEmpty())
         <div class="alert alert-danger alert-dismissible fade in" data-timeout-remove="2000" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
@@ -35,4 +35,4 @@
     @foreach ($component->getFormButtonsComponents() as $button)
         {!! $button->render($button->getOption('template', $button->getDefaultTemplateName())) !!}
     @endforeach
-{!! Form::close() !!}
+{{ Form::close() }}
