@@ -5,6 +5,7 @@ namespace Softworx\RocXolid\DevKit\Http\Controllers;
 use Auth;
 use Softworx\RocXolid\Http\Controllers\AbstractController as RocXolidController;
 
+// @todo: "hotfixed"
 abstract class AbstractController extends RocXolidController
 {
     public function userCan($method_group)
