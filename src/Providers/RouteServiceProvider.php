@@ -30,7 +30,7 @@ class RouteServiceProvider extends IlluminateServiceProvider
     /**
      * Define the routes for the package.
      *
-     * @param  \Illuminate\Routing\Router $router Router to be used for routing.
+     * @param \Illuminate\Routing\Router $router Router to be used for routing.
      * @return \Illuminate\Support\ServiceProvider
      */
     private function load(Router $router): IlluminateServiceProvider
