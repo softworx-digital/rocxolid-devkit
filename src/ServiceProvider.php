@@ -11,7 +11,7 @@ use Softworx\RocXolid\DevKit\Console\Contracts\Executor as ExecutorContract;
 use Softworx\RocXolid\DevKit\Console\Executor;
 
 /**
- * rocXolid DevKit package service provider.
+ * rocXolid DevKit package primary service provider.
  *
  * @author softworx <hello@softworx.digital>
  * @package Softworx\RocXolid\DevKit
@@ -103,7 +103,6 @@ class ServiceProvider extends RocXolidAbstractServiceProvider
      */
     private function bindAliases(AliasLoader $loader): RocXolidAbstractServiceProvider
     {
-        // ...
         return $this;
     }
 }
