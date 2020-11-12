@@ -4,7 +4,7 @@ namespace Softworx\RocXolid\DevKit\Providers;
 
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Illuminate\Console\Command;
-use Softworx\RocXolid\DevKit\Commands\CreateRootUser;
+use Softworx\RocXolid\DevKit\Console\Commands;
 
 /**
  * rocXolid CLI commands service provider.
