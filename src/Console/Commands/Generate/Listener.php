@@ -38,8 +38,7 @@ class Listener extends AbstractCommand
      */
     public function handle()
     {
-        if (!$this->option('event'))
-        {
+        if (!$this->option('event')) {
             return $this->error('Missing required option: --event=*NameOfEvent*');
         }
 
@@ -50,8 +49,7 @@ class Listener extends AbstractCommand
         // check the path where to create and save file
         $path = $this->getPath('');
 
-        if ($this->files->exists($path) && ($this->optionForce() === false))
-        {
+        if ($this->files->exists($path) && ($this->optionForce() === false)) {
             return $this->error($this->type . ' already exists!');
         }
 
@@ -66,8 +64,7 @@ class Listener extends AbstractCommand
         $this->info('- ' . $path);
 
         // if we need to run "composer dump-autoload"
-        if ($this->settings['dump_autoload'] === true)
-        {
+        if ($this->settings['dump_autoload'] === true) {
             $this->composer->dumpAutoloads();
         }
     }
@@ -81,8 +78,7 @@ class Listener extends AbstractCommand
     {
         $name = $this->getArgumentNameOnly();
 
-        switch ($this->option('type'))
-        {
+        switch ($this->option('type')) {
             case 'view':
                 break;
             case 'model':
@@ -97,8 +93,7 @@ class Listener extends AbstractCommand
         }
 
         // overide the name
-        if ($this->option('name'))
-        {
+        if ($this->option('name')) {
             return $this->option('name') . $this->settings['file_type'];
         }
 
@@ -119,8 +114,7 @@ class Listener extends AbstractCommand
 
         $path = $this->settings['path'];
 
-        if ($this->settingsDirectoryNamespace() === true)
-        {
+        if ($this->settingsDirectoryNamespace() === true) {
             $path .= $this->getArgumentPath($withName);
         }
 
@@ -182,8 +176,10 @@ class Listener extends AbstractCommand
         // event - listeners
         $event = $this->option('event');
 
-        if (!Str::startsWith($event, $this->laravel->getNamespace()) && !Str::startsWith($event,
-                'Illuminate')
+        if (!Str::startsWith($event, $this->laravel->getNamespace()) && !Str::startsWith(
+            $event,
+            'Illuminate'
+        )
         ) {
             $event = $this->laravel->getNamespace() . 'Events\\' . $event;
         }
@@ -209,8 +205,7 @@ class Listener extends AbstractCommand
         $path = (strlen($this->settings['namespace']) >= 2 ? $this->settings['namespace'] . '\\' : '');
 
         // dont add the default namespace if specified not to in config
-        if ($this->settingsDirectoryNamespace() === true)
-        {
+        if ($this->settingsDirectoryNamespace() === true) {
             $path .= str_replace('/', '\\', $this->getArgumentPath());
         }
 
@@ -230,8 +225,7 @@ class Listener extends AbstractCommand
      */
     protected function getUrl($lowercase = true)
     {
-        if ($lowercase)
-        {
+        if ($lowercase) {
             $url = '/' . rtrim(implode('/', array_map('Str::snake', explode('/', $this->getArgumentPath(true)))), '/');
             $url = (implode('/', array_map('Str::slug', explode('/', $url))));
 

@@ -21,8 +21,7 @@ class CommandRepository
     {
         $tabs = [];
 
-        foreach ($this->getTaggedCommands($tag) as $command)
-        {
+        foreach ($this->getTaggedCommands($tag) as $command) {
             $tabs[] = new Tab($command); // @todo - classu asi hodit do parametrov metody a resolvovat / bindovat v service provideri
         }
 
@@ -31,10 +30,8 @@ class CommandRepository
 
     public function getTaggedCommandByName($tag, $name)
     {
-        foreach ($this->getTaggedCommands($tag) as $command)
-        {
-            if ($command->getName() == $name)
-            {
+        foreach ($this->getTaggedCommands($tag) as $command) {
+            if ($command->getName() == $name) {
                 return $command;
             }
         }

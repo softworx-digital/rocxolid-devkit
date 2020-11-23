@@ -44,44 +44,31 @@ class CommanderController extends AbstractController
 
     public function run(Request $request, $command_name, $arguments = [])
     {
-        try
-        {
+        try {
             $command = $this->command_repository->getTaggedCommandByName(config('rocXolid.devkit.command-binding-tag'), $command_name);
 
-            if (is_null($command))
-            {
+            if (is_null($command)) {
                 throw new RuntimeException(sprintf('Command class for [%s] not found', $command_name));
             }
 
-            if (method_exists($command, 'getRequestArguments'))
-            {
+            if (method_exists($command, 'getRequestArguments')) {
                 $request_arguments = $command->getRequestArguments($request, $arguments);
-            }
-            else
-            {
+            } else {
                 $request_arguments = $arguments;
             }
 
-            if ($request->isMethod('post'))
-            {
+            if ($request->isMethod('post')) {
                 $command->getForm()->submit();
 
-                if ($command->getForm()->isValid())
-                {
+                if ($command->getForm()->isValid()) {
                     $output = $this->executor->execute($command->getName(), $request_arguments)->getOutput();
-                }
-                else
-                {
+                } else {
                     return $this->error($request, $command);
                 }
-            }
-            else
-            {
+            } else {
                 $output = $this->executor->execute($command->getName(), $request_arguments)->getOutput();
             }
-        }
-        catch (RuntimeException $e)
-        {
+        } catch (RuntimeException $e) {
             return $this->exception($request, $command, $e);
         }
 
@@ -99,17 +86,14 @@ class CommanderController extends AbstractController
     {
         $assignments = $this->getViewAssignments($request, $command, $output);
 
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             $tab = (new CommandTab($command));
 
             return $this->response
                 ->replace($tab->makeDomId($command->getName(), 'output'), (new Message())->fetch('command.output', $assignments + [ 'tab' => $tab ]))
                 ->empty($tab->makeDomId($command->getName(), 'error'))
                 ->get();
-        }
-        else
-        {
+        } else {
             return (new Dashboard($this))->render('default', $assignments);
         }
     }
@@ -118,8 +102,7 @@ class CommanderController extends AbstractController
     {
         $assignments = $this->getViewAssignments($request, $command);
 
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             $tab = (new CommandTab($command));
 
             return $this->response
@@ -127,9 +110,7 @@ class CommanderController extends AbstractController
                 ->replace($tab->makeDomId($command->getName(), 'error'), (new Message())->fetch('command.error', $assignments + [ 'tab' => $tab ]))
                 ->empty($tab->makeDomId($command->getName(), 'output'))
                 ->get();
-        }
-        else
-        {
+        } else {
             return redirect()
                 ->to(sprintf('%s#tab-%s', app('url')->previous(), md5($command->getName())))
                 //->withErrors($command->getForm()->getErrors())
@@ -143,46 +124,38 @@ class CommanderController extends AbstractController
     {
         $assignments = $this->getViewAssignments($request, $command, null, $e);
 
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             $tab = (new CommandTab($command));
 
             return $this->response
                 ->replace($tab->makeDomId($command->getName(), 'error'), (new Message())->fetch('command.error', $assignments + [ 'tab' => $tab ]))
                 ->empty($tab->makeDomId($command->getName(), 'output'))
                 ->get();
-        }
-        else
-        {
+        } else {
             return (new Dashboard($this))->render('default', $assignments);
         }
     }
 
     protected function getViewAssignments(Request $request, Command $command = null, $output = null, RuntimeException $e = null)
     {
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             $assignments = [
                 'command' => !is_null($command) ? $command->getName() : $command,
             ];
-        }
-        else
-        {
+        } else {
             $assignments = [
                 'command_tabs' => $this->command_repository->getTaggedCommandsTabs(config('rocXolid.devkit.command-binding-tag')),
                 'active' => !is_null($command) ? $command->getName() : $command,
             ];
         }
 
-        if (!is_null($output))
-        {
+        if (!is_null($output)) {
             $assignments['output'] = [
                 $command->getName() => $output,
             ];
         }
 
-        if (!is_null($e))
-        {
+        if (!is_null($e)) {
             $assignments['error'] = [
                 $command->getName() => $e->getMessage() . ' ' . get_class($e),
             ];

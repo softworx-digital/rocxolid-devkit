@@ -51,8 +51,7 @@ class Migration extends AbstractCommand
         $name = $this->qualifyClass($this->getNameInput());
         $path = $this->getPath($name);
 
-        if ($this->files->exists($path) && ($this->optionForce() === false))
-        {
+        if ($this->files->exists($path) && ($this->optionForce() === false)) {
             return $this->error($this->type . ' already exists!');
         }
 
@@ -63,8 +62,7 @@ class Migration extends AbstractCommand
         $this->info('- ' . $path);
 
         // if model is required
-        if (($this->optionModel() === true) || ($this->optionModel() === 'true'))
-        {
+        if (($this->optionModel() === true) || ($this->optionModel() === 'true')) {
             $this->call('rocXolid:generate:model', [
                 'name'     => $this->getModelName(),
                 '--plain'  => $this->optionPlain(),
@@ -117,10 +115,8 @@ class Migration extends AbstractCommand
     {
         $schema = '';
 
-        if (!$this->optionPlain())
-        {
-            if ($schema = $this->optionSchema())
-            {
+        if (!$this->optionPlain()) {
+            if ($schema = $this->optionSchema()) {
                 $schema = (new SchemaParser())->parse($schema);
             }
 
@@ -156,8 +152,7 @@ class Migration extends AbstractCommand
         $model = '';
         $pieces = explode('_', str_singular($this->meta['table']));
 
-        foreach ($pieces as $k => $str)
-        {
+        foreach ($pieces as $k => $str) {
             $model = $model . ucwords($str);
         }
 

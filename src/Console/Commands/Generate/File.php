@@ -41,15 +41,13 @@ class File extends AbstractCommand
     private function getFileName()
     {
         // pre-set name in the option
-        if ($this->option('name'))
-        {
+        if ($this->option('name')) {
             return $this->option('name') . $this->settings['file_type'];
         }
 
         $name = $this->getArgumentNameOnly();
 
-        switch ($this->option('type'))
-        {
+        switch ($this->option('type')) {
             case 'view':
                 $name = $this->getViewName($name);
                 break;
@@ -92,8 +90,7 @@ class File extends AbstractCommand
         // check the path where to create and save file
         $path = $this->getPath('');
 
-        if ($this->files->exists($path) && ($this->optionForce() === false))
-        {
+        if ($this->files->exists($path) && ($this->optionForce() === false)) {
             return $this->error($this->type . ' already exists!');
         }
 
@@ -108,8 +105,7 @@ class File extends AbstractCommand
         $this->info('- ' . $name . ' > ' . $path);
 
         // if we need to run "composer dump-autoload"
-        if ($this->settings['dump_autoload'] === true)
-        {
+        if ($this->settings['dump_autoload'] === true) {
             $this->composer->dumpAutoloads();
             $this->info('Autoloads dumped');
         }
@@ -131,16 +127,14 @@ class File extends AbstractCommand
         // $path .= '/';
         $path = '';
 
-        if ($this->settingsDirectoryNamespace() === true)
-        {
+        if ($this->settingsDirectoryNamespace() === true) {
             $path .= $this->getArgumentPath($with_name);
         }
 
         //$path .= '/';
         $path .= $this->settings['dir'];
 
-        if ($subpackage = $this->getArgumentSubPackage())
-        {
+        if ($subpackage = $this->getArgumentSubPackage()) {
             $path .= $subpackage;
             $path .= '/';
         }
@@ -210,8 +204,7 @@ class File extends AbstractCommand
         $path = (strlen($this->settings['namespace']) >= 2 ? $this->settings['namespace'] . '\\' : '');
 
         // dont add the default namespace if specified not to in config
-        if ($this->settingsDirectoryNamespace() === true)
-        {
+        if ($this->settingsDirectoryNamespace() === true) {
             $path .= str_replace('/', '\\', $this->getArgumentPath());
         }
 
@@ -235,8 +228,7 @@ class File extends AbstractCommand
     protected function getPackage($name, $withApp = false)
     {
         // dont add the default namespace if specified not to in config
-        if ($this->settingsDirectoryNamespace() === true)
-        {
+        if ($this->settingsDirectoryNamespace() === true) {
             $path = str_replace('.', '\\', $this->getArgumentPackage());
         }
 
@@ -259,8 +251,7 @@ class File extends AbstractCommand
     protected function getSubPackage($name, $withApp = false)
     {
         // dont add the default namespace if specified not to in config
-        if ($this->settingsDirectoryNamespace() === true)
-        {
+        if ($this->settingsDirectoryNamespace() === true) {
             $path = str_replace('.', '\\', $this->getArgumentSubPackage());
         }
 
@@ -270,8 +261,7 @@ class File extends AbstractCommand
 
         $subpackage = rtrim(ltrim(str_replace('\\\\', '\\', $subpackage), '\\'), '\\');
 
-        if (!empty($subpackage))
-        {
+        if (!empty($subpackage)) {
             $subpackage = sprintf('\%s', $subpackage);
         }
 
@@ -286,8 +276,7 @@ class File extends AbstractCommand
      */
     protected function getUrl($lowercase = true)
     {
-        if ($lowercase)
-        {
+        if ($lowercase) {
             $url = '/' . rtrim(implode('/', array_map('Str::snake', explode('/', $this->getArgumentPath(true)))), '/');
             $url = (implode('/', array_map('Str::slug', explode('/', $url))));
             return $url;

@@ -13,8 +13,7 @@ trait Formable
 
     public function getFormComponent($param = FormableContract::FORM_PARAM): FormableComponent
     {
-        if (!isset($this->form_components[$param]))
-        {
+        if (!isset($this->form_components[$param])) {
             $this->form_components[$param] = (new FormComponent())
                 ->setForm($this->getForm($param))
                 ->setCommand($this);

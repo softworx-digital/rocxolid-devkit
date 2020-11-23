@@ -5,6 +5,7 @@ namespace Softworx\RocXolid\DevKit\Components\Commander\Command;
 use Softworx\RocXolid\DevKit\Components\AbstractActiveComponent;
 use Symfony\Component\Console\Command\Command;
 use Softworx\RocXolid\Forms\Contracts\Formable;
+
 // @todo - navratove typy
 class Tab extends AbstractActiveComponent
 {
@@ -16,8 +17,7 @@ class Tab extends AbstractActiveComponent
     {
         $this->command = $command;
 
-        if ($this->isCommandFormable() && $this->hasForm())
-        {
+        if ($this->isCommandFormable() && $this->hasForm()) {
             $this->form_component = $this->getCommand()->getFormComponent();
         }
     }

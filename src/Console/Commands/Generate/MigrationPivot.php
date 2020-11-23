@@ -37,8 +37,7 @@ class MigrationPivot extends AbstractCommand
         $name = $this->parseName($this->getNameInput());
         $path = $this->getPath($name);
 
-        if ($this->files->exists($path) && ($this->optionForce() === false))
-        {
+        if ($this->files->exists($path) && ($this->optionForce() === false)) {
             return $this->error($this->type . ' already exists!');
         }
 
@@ -46,8 +45,7 @@ class MigrationPivot extends AbstractCommand
         $modelOne = $this->getModelName($this->argument('tableOne'));
         $modelTwo = $this->getModelName($this->argument('tableTwo'));
 
-        if ($this->confirm("Add Many To Many Relationship in '{$modelOne}' and '{$modelTwo}' Models? [yes|no]"))
-        {
+        if ($this->confirm("Add Many To Many Relationship in '{$modelOne}' and '{$modelTwo}' Models? [yes|no]")) {
             $this->addRelationshipsInParents();
         }
 
@@ -187,8 +185,7 @@ class MigrationPivot extends AbstractCommand
     {
         $options = $this->getConfig('settings');
 
-        if (!$options['model'])
-        {
+        if (!$options['model']) {
             $this->info('Model files not found.');
 
             return;

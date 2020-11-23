@@ -35,8 +35,7 @@ class CommandServiceProvider extends IlluminateServiceProvider
      */
     private function setCommads(): IlluminateServiceProvider
     {
-        foreach (config('rocXolid.devkit.general.commands') as $command => $handler)
-        {
+        foreach (config('rocXolid.devkit.general.commands') as $command => $handler) {
             $this->registerCommand(sprintf(config('rocXolid.devkit.general.command-binding-pattern'), $command), $handler);
         }
 

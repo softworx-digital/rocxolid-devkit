@@ -15,8 +15,7 @@ class NameParser
     {
         $segments = array_reverse(explode('_', $name));
 
-        if ($segments[0] == 'table')
-        {
+        if ($segments[0] == 'table') {
             array_shift($segments);
         }
 
@@ -37,10 +36,8 @@ class NameParser
     {
         $tableName = [];
 
-        foreach ($segments as $segment)
-        {
-            if ($this->isConnectingWord($segment))
-            {
+        foreach ($segments as $segment) {
+            if ($this->isConnectingWord($segment)) {
                 break;
             }
 

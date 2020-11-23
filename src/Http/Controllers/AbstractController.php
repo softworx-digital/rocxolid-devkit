@@ -12,10 +12,8 @@ abstract class AbstractController extends RocXolidController
     {
         $permission = sprintf('\%s.%s', get_class($this), $method_group);
 
-        if ($user = Auth::guard('rocXolid')->user())
-        {
-            if ($user->getKey() == 1)
-            {
+        if ($user = Auth::guard('rocXolid')->user()) {
+            if ($user->getKey() == 1) {
                 return true;
             }
         }
