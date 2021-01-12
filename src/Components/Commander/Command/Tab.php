@@ -6,7 +6,7 @@ use Softworx\RocXolid\DevKit\Components\AbstractActiveComponent;
 use Symfony\Component\Console\Command\Command;
 use Softworx\RocXolid\Forms\Contracts\Formable;
 
-// @todo - navratove typy
+// @todo navratove typy
 class Tab extends AbstractActiveComponent
 {
     protected $command;

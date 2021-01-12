@@ -22,7 +22,7 @@ class CommandRepository
         $tabs = [];
 
         foreach ($this->getTaggedCommands($tag) as $command) {
-            $tabs[] = new Tab($command); // @todo - classu asi hodit do parametrov metody a resolvovat / bindovat v service provideri
+            $tabs[] = new Tab($command); // @todo classu asi hodit do parametrov metody a resolvovat / bindovat v service provideri
         }
 
         return $tabs;

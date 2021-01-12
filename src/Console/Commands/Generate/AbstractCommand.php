@@ -2,7 +2,7 @@
 
 namespace Softworx\RocXolid\DevKit\Console\Commands\Generate;
 
-// @TODO - settable upratat - mozno dat cele ako Softworx\RocXolid\Traits\Optionable
+// @todo settable upratat - mozno dat cele ako Softworx\RocXolid\Traits\Optionable
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;

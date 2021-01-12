@@ -12,8 +12,8 @@ use Softworx\RocXolid\UserManagement\Models\Permission;
 use Softworx\RocXolid\Http\Controllers\Contracts\Crudable;
 use Spatie\Permission\PermissionRegistrar;
 
-// @todo - types (return)
-// @todo - toto dat niekam inam (as Seed), lebo negeneruje file, ale na to treba aj upravit AbstractCommand
+// @todo types (return)
+// @todo toto dat niekam inam (as Seed), lebo negeneruje file, ale na to treba aj upravit AbstractCommand
 class ResourceControllerPermissions extends AbstractCommand
 {
     /**

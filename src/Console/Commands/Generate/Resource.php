@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-// @todo - types (return)
+// @todo types (return)
 class Resource extends AbstractCommand
 {
     /**
@@ -21,7 +21,7 @@ class Resource extends AbstractCommand
      *
      * @var string
      */
-    protected $description = 'Create a new resource (model, views, controller, migration, forms, seed) for given namespace. @TODO - formulare rozdelit na standardne CRUD - zohladnit metody';
+    protected $description = 'Create a new resource (model, views, controller, migration, forms, seed) for given namespace. @todo formulare rozdelit na standardne CRUD - zohladnit metody';
     /**
      * The type of class being generated.
      *
@@ -436,7 +436,7 @@ class Resource extends AbstractCommand
      * @param $name
      * @return string
      */
-    // @todo - do settings
+    // @todo do settings
     private function getPackagePath()
     {
         switch ($this->package) {
@@ -459,7 +459,7 @@ class Resource extends AbstractCommand
      * @param $name
      * @return string
      */
-    // @todo - do settings
+    // @todo do settings
     private function getPackageNamespace()
     {
         switch ($this->package) {
