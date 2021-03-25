@@ -251,23 +251,23 @@ class General extends GenerateCommandAbstractForm
         ],
     ];
 
-/*
-    protected function getButtonGroupsDefinition()
-    {
-        return $this->buttongroups + [
-            'control' => [
-                'type' => ButtonGroup::class,
-                'options' => [
-                    'toolbar' => ButtonToolbar::DEFAULT_NAME,
-                    'wrapper' => false,
-                    'attributes' => [
-                        'class' => 'btn-group pull-left'
+    /*
+        protected function getButtonGroupsDefinition()
+        {
+            return $this->buttongroups + [
+                'control' => [
+                    'type' => ButtonGroup::class,
+                    'options' => [
+                        'toolbar' => ButtonToolbar::DEFAULT_NAME,
+                        'wrapper' => false,
+                        'attributes' => [
+                            'class' => 'btn-group pull-left'
+                        ],
                     ],
                 ],
-            ],
-        ];
-    }
-*/
+            ];
+        }
+    */
 /*
     protected function getButtonsDefinition()
     {

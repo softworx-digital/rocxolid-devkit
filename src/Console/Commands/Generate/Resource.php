@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-// @todo - types (return)
+// @todo types (return)
 class Resource extends AbstractCommand
 {
     /**
@@ -21,7 +21,7 @@ class Resource extends AbstractCommand
      *
      * @var string
      */
-    protected $description = 'Create a new resource (model, views, controller, migration, forms, seed) for given namespace. @TODO - formulare rozdelit na standardne CRUD - zohladnit metody';
+    protected $description = 'Create a new resource (model, views, controller, migration, forms, seed) for given namespace. @todo formulare rozdelit na standardne CRUD - zohladnit metody';
     /**
      * The type of class being generated.
      *
@@ -54,8 +54,7 @@ class Resource extends AbstractCommand
         //$this->callView();
         //$this->callSeed();
 
-        if ($this->option('migrate'))
-        {
+        if ($this->option('migrate')) {
             $this->callMigrate();
         }
 
@@ -79,10 +78,8 @@ class Resource extends AbstractCommand
         ];
         $schema = [];
 
-        if ($request->has('_datagroup'))
-        {
-            foreach ($request->input('_datagroup') as $input)
-            {
+        if ($request->has('_datagroup')) {
+            foreach ($request->input('_datagroup') as $input) {
                 $schema[] = implode(':', array_filter([
                     $input['attribute'],
                     $input['type'],
@@ -109,19 +106,16 @@ class Resource extends AbstractCommand
         $resourceString = $this->getResourceOnly();
         $resourceStringLength = strlen($this->getResourceOnly());
 
-        if ($resourceStringLength > 18)
-        {
+        if ($resourceStringLength > 18) {
             $ans = !$this->needConfirmation || $this->confirm("Your resource {$resourceString} may have too many characters to use for many to many relationships. The length is {$resourceStringLength}. Continue? [yes|no]");
 
-            if ($ans === false)
-            {
+            if ($ans === false) {
                 echo "rocXolid:generate:resource cancelled!";
                 die;
             }
         }
 
-        if (!$this->needConfirmation || $this->confirm("Create a $name model? [yes|no]"))
-        {
+        if (!$this->needConfirmation || $this->confirm("Create a $name model? [yes|no]")) {
             $this->callCommandFile('model', $this->getPackagePath());
         }
     }
@@ -131,16 +125,13 @@ class Resource extends AbstractCommand
      */
     private function callView()
     {
-        if (!$this->needConfirmation || $this->confirm("Create crud views for the $this->resource resource? [yes|no]"))
-        {
+        if (!$this->needConfirmation || $this->confirm("Create crud views for the $this->resource resource? [yes|no]")) {
             $views = $this->getConfig('resource_views');
 
-            foreach ($views as $key => $name)
-            {
+            foreach ($views as $key => $name) {
                 $resource = $this->argument('resource');
 
-                if (Str::contains($resource, '.'))
-                {
+                if (Str::contains($resource, '.')) {
                     $resource = str_replace('.', '/', $resource);
                 }
 
@@ -156,8 +147,7 @@ class Resource extends AbstractCommand
     {
         $name = $this->getResourceControllerName();
 
-        if (!$this->needConfirmation || $this->confirm("Create a controller ($name) for the $this->resource resource? [yes|no]"))
-        {
+        if (!$this->needConfirmation || $this->confirm("Create a controller ($name) for the $this->resource resource? [yes|no]")) {
             $arg = $this->getArgumentResource();
             $name = substr_replace($arg, Str::plural($this->resource), strrpos($arg, $this->resource), strlen($this->resource));
 
@@ -171,8 +161,7 @@ class Resource extends AbstractCommand
      */
     private function callForms()
     {
-        if (!$this->needConfirmation || $this->confirm("Create forms for the $this->resource resource? [yes|no]"))
-        {
+        if (!$this->needConfirmation || $this->confirm("Create forms for the $this->resource resource? [yes|no]")) {
             $this->callCommandFile('form-create', $this->getPackagePath());
             $this->callCommandFile('form-update', $this->getPackagePath());
         }
@@ -185,8 +174,7 @@ class Resource extends AbstractCommand
     {
         $name = $this->getResourceRepositoryName();
 
-        if (!$this->needConfirmation || $this->confirm("Create a repository ($name) for the $this->resource resource? [yes|no]"))
-        {
+        if (!$this->needConfirmation || $this->confirm("Create a repository ($name) for the $this->resource resource? [yes|no]")) {
             $arg = $this->getArgumentResource();
             $name = substr_replace($arg, Str::plural($this->resource), strrpos($arg, $this->resource), strlen($this->resource));
 
@@ -202,8 +190,7 @@ class Resource extends AbstractCommand
     {
         $name = $this->getMigrationName($this->option('migration'));
 
-        if (!$this->needConfirmation || $this->confirm("Create a migration ($name) for the $this->resource resource? [yes|no]"))
-        {
+        if (!$this->needConfirmation || $this->confirm("Create a migration ($name) for the $this->resource resource? [yes|no]")) {
             $this->callCommand('migration', $name, [
                 '--model'  => false,
                 '--schema' => $this->option('schema')
@@ -218,8 +205,7 @@ class Resource extends AbstractCommand
     {
         $name = $this->getSeedName() . $this->getConfig('settings.seed.postfix');
 
-        if (!$this->needConfirmation || $this->confirm("Create a seed ($name) for the $this->resource resource? [yes|no]"))
-        {
+        if (!$this->needConfirmation || $this->confirm("Create a seed ($name) for the $this->resource resource? [yes|no]")) {
             $this->callCommandFile('seed');
         }
     }
@@ -229,8 +215,7 @@ class Resource extends AbstractCommand
      */
     protected function callMigrate()
     {
-        if (!$this->needConfirmation || $this->confirm('Migrate the database? [yes|no]'))
-        {
+        if (!$this->needConfirmation || $this->confirm('Migrate the database? [yes|no]')) {
             $this->call('migrate');
         }
     }
@@ -267,7 +252,7 @@ class Resource extends AbstractCommand
     private function callCommandFile($type, $path = null, $name = null, $stub = null, $schema = null, $options = [])
     {
         $name = sprintf('%s--%s', $this->getPackageNamespace(), ($name ? $name : $this->argument('resource')));
-// @todo zahrnut package, zatial tmp riesenie oddelenie '--'
+        // @todo zahrnut package, zatial tmp riesenie oddelenie '--'
         $options = array_merge($options, [
             //'package' => ($package ? $package : $this->argument('package')),
             'path'     => ($path ? $path : $this->argument('path')),
@@ -296,8 +281,7 @@ class Resource extends AbstractCommand
     {
         $name = $this->argument('package');
 
-        if (!Str::contains($name, '.'))
-        {
+        if (!Str::contains($name, '.')) {
             return $name;
         }
 
@@ -314,23 +298,19 @@ class Resource extends AbstractCommand
     {
         $name = $this->argument('resource');
 
-        if (Str::contains($name, '/'))
-        {
+        if (Str::contains($name, '/')) {
             $name = str_replace('/', '.', $name);
         }
 
-        if (Str::contains($name, '\\'))
-        {
+        if (Str::contains($name, '\\')) {
             $name = str_replace('\\', '.', $name);
         }
 
-        if (Str::contains($name, '.'))
-        {
+        if (Str::contains($name, '.')) {
             $parts = [];
             $names = explode('.', $name);
 
-            foreach ($names as $part)
-            {
+            foreach ($names as $part) {
                 $parts[] = Str::kebab($part);
             }
 
@@ -340,9 +320,7 @@ class Resource extends AbstractCommand
             reset($parts);
 
             $name = implode('.', $parts);
-        }
-        else
-        {
+        } else {
             $name = Str::kebab(Str::singular($name));
         }
 
@@ -358,8 +336,7 @@ class Resource extends AbstractCommand
     {
         $name = $this->getArgumentResource();
 
-        if (!Str::contains($name, '.'))
-        {
+        if (!Str::contains($name, '.')) {
             return $name;
         }
 
@@ -459,11 +436,10 @@ class Resource extends AbstractCommand
      * @param $name
      * @return string
      */
-    // @todo - do settings
+    // @todo do settings
     private function getPackagePath()
     {
-        switch ($this->package)
-        {
+        switch ($this->package) {
             case 'App':
                 return 'app';
             default:
@@ -483,11 +459,10 @@ class Resource extends AbstractCommand
      * @param $name
      * @return string
      */
-    // @todo - do settings
+    // @todo do settings
     private function getPackageNamespace()
     {
-        switch ($this->package)
-        {
+        switch ($this->package) {
             case 'App':
                 return 'App';
             default:

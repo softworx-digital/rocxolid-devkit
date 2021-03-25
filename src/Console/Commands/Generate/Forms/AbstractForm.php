@@ -68,7 +68,7 @@ class AbstractForm extends RocXolidAbstractForm
                 'ajax' => true,
                 'label' => [
                     'title' => 'Run AJAX',
-                ],                
+                ],
                 'attributes' => [
                     'class' => 'btn btn-warning',
                 ],

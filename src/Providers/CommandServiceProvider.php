@@ -4,7 +4,7 @@ namespace Softworx\RocXolid\DevKit\Providers;
 
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Illuminate\Console\Command;
-use Softworx\RocXolid\DevKit\Commands\CreateRootUser;
+use Softworx\RocXolid\DevKit\Console\Commands;
 
 /**
  * rocXolid CLI commands service provider.
@@ -35,8 +35,7 @@ class CommandServiceProvider extends IlluminateServiceProvider
      */
     private function setCommads(): IlluminateServiceProvider
     {
-        foreach (config('rocXolid.devkit.general.commands') as $command => $handler)
-        {
+        foreach (config('rocXolid.devkit.general.commands') as $command => $handler) {
             $this->registerCommand(sprintf(config('rocXolid.devkit.general.command-binding-pattern'), $command), $handler);
         }
 

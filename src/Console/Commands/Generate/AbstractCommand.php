@@ -2,7 +2,7 @@
 
 namespace Softworx\RocXolid\DevKit\Console\Commands\Generate;
 
-// @TODO - settable upratat - mozno dat cele ako Softworx\RocXolid\Traits\Optionable
+// @todo settable upratat - mozno dat cele ako Softworx\RocXolid\Traits\Optionable
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
@@ -96,24 +96,19 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
     {
         $name = $this->argumentName();
 
-        if (Str::contains($name, '--')) // package - resource delimiter
-        {
+        if (Str::contains($name, '--')) { // package - resource delimiter
             $name = substr($name, strrpos($name, '--') + 2);
         }
 
-        if (Str::contains($name, '/'))
-        {
+        if (Str::contains($name, '/')) {
             $name = str_replace('/', '.', $name);
         }
 
-        if (Str::contains($name, '\\'))
-        {
+        if (Str::contains($name, '\\')) {
             $name = str_replace('\\', '.', $name);
         }
 
-        if (Str::contains($name, '.'))
-        {
-
+        if (Str::contains($name, '.')) {
             return substr($name, strrpos($name, '.') + 1);
         }
 
@@ -130,24 +125,20 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
     {
         $name = $this->argumentName();
 
-        if (Str::contains($name, '--')) // package - resource delimiter
-        {
+        if (Str::contains($name, '--')) { // package - resource delimiter
             $name = substr($name, 0, strrpos($name, '--'));
             $name .= '.'; // to fake further parsing (expects model name as the last part)
         }
 
-        if (Str::contains($name, '/'))
-        {
+        if (Str::contains($name, '/')) {
             $name = str_replace('/', '.', $name);
         }
 
-        if (Str::contains($name, '\\'))
-        {
+        if (Str::contains($name, '\\')) {
             $name = str_replace('\\', '.', $name);
         }
 
-        if (Str::contains($name, '.'))
-        {
+        if (Str::contains($name, '.')) {
             return substr($name, 0, strrpos($name, '.'));
         }
 
@@ -164,22 +155,18 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
     {
         $name = $this->argumentName();
 
-        if (Str::contains($name, '--')) // package - resource delimiter
-        {
+        if (Str::contains($name, '--')) { // package - resource delimiter
             $name = substr($name, strrpos($name, '--') + 2);
 
-            if (Str::contains($name, '/'))
-            {
+            if (Str::contains($name, '/')) {
                 $name = str_replace('/', '.', $name);
             }
 
-            if (Str::contains($name, '\\'))
-            {
+            if (Str::contains($name, '\\')) {
                 $name = str_replace('\\', '.', $name);
             }
 
-            if (Str::contains($name, '.'))
-            {
+            if (Str::contains($name, '.')) {
                 return substr($name, 0, strrpos($name, '.'));
             }
         }
@@ -242,15 +229,13 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
      */
     protected function getResourceName($name, $format = true)
     {
-        if ($name && ($format === false))
-        {
+        if ($name && ($format === false)) {
             return $name;
         }
 
         $name = isset($name) ? $name : $this->resource;
 
-        if (Str::contains($name, '--')) // package - resource delimiter
-        {
+        if (Str::contains($name, '--')) { // package - resource delimiter
             $name = substr($name, strrpos($name, '--') + 2);
         }
 
@@ -342,8 +327,7 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
         $pieces = explode('_', $name);
         $name = '';
 
-        foreach ($pieces as $k => $str)
-        {
+        foreach ($pieces as $k => $str) {
             $name .= ucfirst($str);
         }
 
@@ -361,10 +345,8 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
         $pieces = explode('/', $name);
 
         // dont plural if reserve word
-        foreach ($pieces as $k => $value)
-        {
-            if (!in_array($value, $this->getConfig('reserve_words')))
-            {
+        foreach ($pieces as $k => $value) {
+            if (!in_array($value, $this->getConfig('reserve_words'))) {
                 $pieces[$k] = Str::plural(Str::snake($pieces[$k]));
             }
         }
@@ -397,12 +379,10 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
     {
         $names = [];
 
-        if ($schema)
-        {
+        if ($schema) {
             $schema = (new SchemaParser())->parse($schema);
 
-            foreach ($schema as $field)
-            {
+            foreach ($schema as $field) {
                 $names[] = sprintf('\'%s\'', $field['name']);
             }
         }
@@ -443,8 +423,7 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
 
         $stub = $this->getConfig($key);
 
-        if (is_null($stub))
-        {
+        if (is_null($stub)) {
             $this->error(sprintf('No stub in config for "%s"', $key));
         }
 
@@ -461,8 +440,7 @@ abstract class AbstractCommand extends GeneratorCommand implements Formable
         $plain = $this->option('plain');
         $stub = $this->option('stub') . ($plain ? '_plain' : '') . '_stub';
 
-        if (is_null($this->option('stub')))
-        {
+        if (is_null($this->option('stub'))) {
             $stub = $this->option('type') . ($plain ? '_plain' : '') . '_stub';
         }
 

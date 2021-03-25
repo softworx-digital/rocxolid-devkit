@@ -10,8 +10,7 @@ trait ArgumentsOptionsGettable
      */
     protected function argumentName()
     {
-        if ($this->settings)
-        {
+        if ($this->settings) {
             return str_replace($this->settings['postfix'], '', $this->argument('name'));
         }
 

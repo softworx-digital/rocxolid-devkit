@@ -16,12 +16,9 @@ trait Settable
      */
     public function setSettings($type)
     {
-        if (array_key_exists($type, $this->getConfig('settings')))
-        {
+        if (array_key_exists($type, $this->getConfig('settings'))) {
             $settings = $this->getConfig('settings')[$type];
-        }
-        else
-        {
+        } else {
             $this->error(sprintf('No settings key by the type name [%s] provided', $type));
         }
 
@@ -37,8 +34,7 @@ trait Settable
      */
     public function settingsKey($key)
     {
-        if (!is_array($this->settings) || !isset($this->settings[$key]))
-        {
+        if (!is_array($this->settings) || !isset($this->settings[$key])) {
             return false;
         }
 

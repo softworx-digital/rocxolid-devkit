@@ -12,8 +12,8 @@ use Softworx\RocXolid\UserManagement\Models\Permission;
 use Softworx\RocXolid\Http\Controllers\Contracts\Crudable;
 use Spatie\Permission\PermissionRegistrar;
 
-// @todo - types (return)
-// @todo - toto dat niekam inam (as Seed), lebo negeneruje file, ale na to treba aj upravit AbstractCommand
+// @todo types (return)
+// @todo toto dat niekam inam (as Seed), lebo negeneruje file, ale na to treba aj upravit AbstractCommand
 class ResourceControllerPermissions extends AbstractCommand
 {
     /**
@@ -55,8 +55,7 @@ class ResourceControllerPermissions extends AbstractCommand
     {
         $controllers = [];
 
-        if ($this->option('replace') === true)
-        {
+        if ($this->option('replace') === true) {
             app(PermissionRegistrar::class)->forgetCachedPermissions();
 
             DB::statement('SET FOREIGN_KEY_CHECKS=0');
@@ -67,16 +66,13 @@ class ResourceControllerPermissions extends AbstractCommand
             $this->info('Permissions truncated!');
         }
 
-        foreach (Route::getRoutes()->getRoutes() as $route)
-        {
+        foreach (Route::getRoutes()->getRoutes() as $route) {
             $action = $route->getAction();
 
-            if (array_key_exists('controller', $action))
-            {
+            if (array_key_exists('controller', $action)) {
                 list($controller, $method) = explode('@', $action['controller']);
 
-                if (in_array(Crudable::class, class_implements($controller)))
-                {
+                if (in_array(Crudable::class, class_implements($controller))) {
                     //$controllers[] = $action['controller'];
                     $controllers[] = $controller;
                 }
@@ -86,20 +82,17 @@ class ResourceControllerPermissions extends AbstractCommand
         $controllers = array_unique($controllers);
         $permissions = [];
 
-        foreach ($controllers as $controller)
-        {
+        foreach ($controllers as $controller) {
             $controller_split = explode('\\', $controller);
 
             end($controller_split);
 
             $controller_shortened = prev($controller_split);
 
-            foreach (static::$controller_method_groups as $method_group)
-            {
+            foreach (static::$controller_method_groups as $method_group) {
                 $name = sprintf('%s.%s', Str::snake($controller_shortened), $method_group);
 
-                try
-                {
+                try {
                     //$permission = Permission::create([
                     $permission = Permission::firstOrNew([
                         'name' => $name,
@@ -110,9 +103,7 @@ class ResourceControllerPermissions extends AbstractCommand
                     ]);
 
                     $permission->save();
-                }
-                catch (\Exception $e)
-                {
+                } catch (\Exception $e) {
                     throw new RuntimeException($e->getMessage());
                 }
 

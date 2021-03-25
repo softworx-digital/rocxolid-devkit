@@ -36,8 +36,7 @@ class Form extends AbstractCommand
     {
         parent::handle();
 
-        if ($this->option('migration'))
-        {
+        if ($this->option('migration')) {
             $name = $this->getMigrationName();
 
             $this->call('generate:migration', [

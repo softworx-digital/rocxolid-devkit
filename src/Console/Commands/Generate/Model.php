@@ -36,8 +36,7 @@ class Model extends AbstractCommand
     {
         parent::handle();
 
-        if ($this->option('migration'))
-        {
+        if ($this->option('migration')) {
             $name = $this->getMigrationName();
 
             $this->call('rocxolid:generate:migration', [

@@ -11,7 +11,7 @@ use Softworx\RocXolid\DevKit\Console\Contracts\Executor as ExecutorContract;
 use Softworx\RocXolid\DevKit\Console\Executor;
 
 /**
- * rocXolid DevKit package service provider.
+ * rocXolid DevKit package primary service provider.
  *
  * @author softworx <hello@softworx.digital>
  * @package Softworx\RocXolid\DevKit
@@ -66,7 +66,7 @@ class ServiceProvider extends RocXolidAbstractServiceProvider
         // php artisan vendor:publish --provider="Softworx\RocXolid\DevKit\ServiceProvider" --tag="lang" (--force to overwrite)
         $this->publishes([
             //__DIR__ . '/../resources/lang' => resource_path('lang/vendor/softworx/rocXolid/devkit'),
-            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/rocXolid:devkit'),
+            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/rocXolid:devkit'), // used by laravel's FileLoaded::loadNamespaceOverrides()
         ], 'lang');
 
         // views files
@@ -103,7 +103,6 @@ class ServiceProvider extends RocXolidAbstractServiceProvider
      */
     private function bindAliases(AliasLoader $loader): RocXolidAbstractServiceProvider
     {
-        // ...
         return $this;
     }
 }
