@@ -1,6 +1,12 @@
 <?php
 
 return [
+    /**
+     * View composers.
+     */
+    'composers' => [
+        'rocXolid:devkit::*' => Softworx\RocXolid\Devkit\Composers\ViewComposer::class,
+    ],
     'command-binding-pattern' => 'command.rocXolid.devkit.%s',
     'command-binding-tag' => 'command.rocXolid.devkit',
 

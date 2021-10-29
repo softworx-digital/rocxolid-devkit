@@ -3,6 +3,8 @@
 namespace Softworx\RocXolid\DevKit\Providers;
 
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
+// rocXolid devkit package provider
+use Softworx\RocXolid\DevKit\ServiceProvider as PackageServiceProvider;
 
 /**
  * rocXolid translation service provider.
@@ -33,7 +35,7 @@ class TranslationServiceProvider extends IlluminateServiceProvider
      */
     private function load()
     {
-        $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'rocXolid:devkit');
+        $this->loadTranslationsFrom(PackageServiceProvider::translationsSourcePath(dirname(dirname(__DIR__))), 'rocXolid-devkit');
 
         return $this;
     }
